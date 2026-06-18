@@ -151,6 +151,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         id: token.id as string,
         name: token.name as string,
         email: token.email as string,
+        emailVerified: null,
         role: token.role as Role,
         academicLevel: (token.academicLevel as AcademicLevel) ?? null,
         department: (token.department as string) ?? null,

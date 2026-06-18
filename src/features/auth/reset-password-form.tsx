@@ -20,14 +20,17 @@ export function ResetPasswordForm() {
   const token = searchParams.get('token');
 
   useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
     if (state.success) {
       toast.success('Password reset successfully!');
-      const timer = setTimeout(() => router.push('/login'), 2000);
-      return () => clearTimeout(timer);
+      timer = setTimeout(() => router.push('/login'), 2000);
     }
     if (state.error) {
       toast.error(state.error);
     }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
   }, [state, router]);
 
   if (!token) {

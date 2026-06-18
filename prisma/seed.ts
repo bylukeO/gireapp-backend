@@ -218,10 +218,10 @@ async function main() {
                   explanation: q.explanation,
                   order: q.order,
                   choices: {
-                    create: q.choices.map(c => ({
+                    create: q.choices.map((c, index) => ({
                       text: c.text,
                       isCorrect: c.isCorrect,
-                      order: c.order
+                      order: index + 1
                     }))
                   }
                 }))

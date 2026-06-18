@@ -23,17 +23,20 @@ export function RegisterForm() {
   const router = useRouter();
 
   useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
     if (state.success) {
       toast.success('Account created! Check your email to verify.', {
         duration: 8000,
       });
       // Redirect to login after a brief delay
-      const timer = setTimeout(() => router.push('/login'), 2000);
-      return () => clearTimeout(timer);
+      timer = setTimeout(() => router.push('/login'), 2000);
     }
     if (state.error) {
       toast.error(state.error);
     }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
   }, [state, router]);
 
   return (

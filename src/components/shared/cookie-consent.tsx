@@ -11,11 +11,14 @@ export function CookieConsent() {
   useEffect(() => {
     // Check if consent has already been given
     const consent = localStorage.getItem(CONSENT_KEY);
+    let timer: ReturnType<typeof setTimeout>;
     if (!consent) {
       // Delay showing the banner slightly for better UX
-      const timer = setTimeout(() => setShow(true), 1000);
-      return () => clearTimeout(timer);
+      timer = setTimeout(() => setShow(true), 1000);
     }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
   }, []);
 
   const handleAccept = () => {
