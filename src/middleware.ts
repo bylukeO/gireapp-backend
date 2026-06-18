@@ -3,9 +3,12 @@
 // Auth guards + rate limiting + security headers
 // ─────────────────────────────────────────────────
 
-import { auth } from '@/lib/auth';
+import NextAuth from 'next-auth';
+import { authConfig } from '@/lib/auth.config';
 import { getAuthRateLimiter, checkRateLimit } from '@/lib/rate-limit';
 import { NextResponse } from 'next/server';
+
+const { auth } = NextAuth(authConfig);
 
 export default auth(async function middleware(req) {
   const { pathname } = req.nextUrl;
