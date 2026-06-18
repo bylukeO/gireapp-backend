@@ -8,13 +8,22 @@ import { cn, getInitials, formatNumber } from '@/lib/utils';
 import { logoutAction } from '@/features/auth/actions';
 import type { SessionUser } from '@/types';
 
-const NAV_ITEMS = [
-  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/dashboard/courses', label: 'Courses', icon: BookOpen },
-  { href: '/dashboard/achievements', label: 'Achievements', icon: Trophy },
-  { href: '/dashboard/mentorship', label: 'Mentorship', icon: MessageCircle },
-  { href: '/dashboard/settings', label: 'Settings', icon: Settings },
-];
+const SEGMENT_MAP: Record<string, string> = {
+  SECONDARY: '/dashboard/secondary',
+  TERTIARY: '/dashboard/tertiary',
+  PROFESSIONAL: '/dashboard/professional',
+};
+
+function getNavItems(academicLevel: string | null) {
+  const dashboardHref = (academicLevel && SEGMENT_MAP[academicLevel]) || '/dashboard';
+  return [
+    { href: dashboardHref, label: 'Dashboard', icon: LayoutDashboard, matchSegment: true },
+    { href: '/dashboard/courses', label: 'Courses', icon: BookOpen, matchSegment: false },
+    { href: '/dashboard/achievements', label: 'Achievements', icon: Trophy, matchSegment: false },
+    { href: '/dashboard/mentorship', label: 'Mentorship', icon: MessageCircle, matchSegment: false },
+    { href: '/dashboard/settings', label: 'Settings', icon: Settings, matchSegment: false },
+  ];
+}
 
 export function DashboardSidebar({ user }: { user: SessionUser }) {
   const pathname = usePathname();
@@ -47,11 +56,13 @@ export function DashboardSidebar({ user }: { user: SessionUser }) {
 
         {/* Nav items */}
         <nav className="flex-1 px-3 py-4 space-y-1" aria-label="Main navigation">
-          {NAV_ITEMS.map((item) => {
-            const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+          {getNavItems(user.academicLevel).map((item) => {
+            const isActive = item.matchSegment
+              ? pathname.startsWith(item.href)
+              : pathname === item.href || pathname.startsWith(`${item.href}/`);
             return (
               <Link
-                key={item.href}
+                key={item.label}
                 href={item.href}
                 className={cn(
                   'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors',
@@ -96,11 +107,13 @@ export function DashboardSidebar({ user }: { user: SessionUser }) {
         aria-label="Mobile navigation"
       >
         <div className="flex items-center justify-around h-16">
-          {NAV_ITEMS.slice(0, 4).map((item) => {
-            const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+          {getNavItems(user.academicLevel).slice(0, 4).map((item) => {
+            const isActive = item.matchSegment
+              ? pathname.startsWith(item.href)
+              : pathname === item.href || pathname.startsWith(`${item.href}/`);
             return (
               <Link
-                key={item.href}
+                key={item.label}
                 href={item.href}
                 className={cn(
                   'flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-lg text-xs transition-colors',

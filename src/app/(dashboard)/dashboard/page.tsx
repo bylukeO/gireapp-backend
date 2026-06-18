@@ -1,178 +1,31 @@
-import { Suspense } from 'react';
-import { auth } from '@/lib/auth';
+// ─────────────────────────────────────────────────
+// GIREAPP — Dashboard Index (M2: Segment Router)
+// Redirects to the correct segment dashboard
+// ─────────────────────────────────────────────────
+
 import { redirect } from 'next/navigation';
-import { prisma } from '@/lib/prisma';
-import { formatNumber, formatProgress } from '@/lib/utils';
-import { BookOpen, Trophy, Star, ArrowRight } from 'lucide-react';
-import Link from 'next/link';
-import type { Metadata } from 'next';
+import { auth } from '@/lib/auth';
 
-export const metadata: Metadata = {
-  title: 'Dashboard',
-  description: 'Your personalised GIREAPP learning dashboard.',
+const SEGMENT_MAP: Record<string, string> = {
+  SECONDARY: '/dashboard/secondary',
+  TERTIARY: '/dashboard/tertiary',
+  PROFESSIONAL: '/dashboard/professional',
 };
-
-// ── Dashboard Data Fetcher ──
-
-async function getDashboardData(userId: string) {
-  const [enrolments, badgeCount, user] = await Promise.all([
-    prisma.enrolment.findMany({
-      where: { userId },
-      include: {
-        course: {
-          include: {
-            modules: { include: { lessons: true } },
-          },
-        },
-      },
-      orderBy: { updatedAt: 'desc' },
-    }),
-    prisma.userBadge.count({ where: { userId } }),
-    prisma.user.findUnique({
-      where: { id: userId },
-      select: { points: true, academicLevel: true, department: true },
-    }),
-  ]);
-
-  return { enrolments, badgeCount, points: user?.points ?? 0, level: user?.academicLevel, department: user?.department };
-}
-
-// ── Dashboard Page ──
 
 export default async function DashboardPage() {
   const session = await auth();
-  if (!session?.user) redirect('/login');
 
-  const data = await getDashboardData(session.user.id);
+  if (!session?.user) {
+    redirect('/login');
+  }
 
-  return (
-    <div className="space-y-8">
-      {/* Welcome header */}
-      <div className="space-y-1">
-        <h1 className="text-h2 text-foreground">
-          Welcome back, {session.user.name.split(' ')[0]}! 👋
-        </h1>
-        <p className="text-body text-muted-foreground">
-          {data.level} • {data.department} — Here&apos;s your learning overview
-        </p>
-      </div>
+  const segment = session.user.academicLevel;
+  const target = segment ? SEGMENT_MAP[segment] : null;
 
-      {/* Stats cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatsCard icon={BookOpen} label="Active Courses" value={data.enrolments.length.toString()} color="indigo" />
-        <StatsCard icon={Trophy} label="Badges Earned" value={data.badgeCount.toString()} color="coral" />
-        <StatsCard icon={Star} label="Total Points" value={formatNumber(data.points)} color="amber" />
-        <StatsCard
-          icon={BookOpen}
-          label="Avg Progress"
-          value={data.enrolments.length > 0
-            ? formatProgress(data.enrolments.reduce((sum, e) => sum + e.progress, 0) / data.enrolments.length)
-            : '0%'}
-          color="emerald"
-        />
-      </div>
+  if (target) {
+    redirect(target);
+  }
 
-      {/* Course list */}
-      <section>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-h3 text-foreground">Active Courses</h2>
-          <Link href="/dashboard/courses" className="text-sm text-primary hover:underline flex items-center gap-1">
-            Browse All <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
-          </Link>
-        </div>
-
-        {data.enrolments.length === 0 ? (
-          <EmptyState />
-        ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {data.enrolments.map((enrolment) => {
-              const totalLessons = enrolment.course.modules.reduce(
-                (sum, m) => sum + m.lessons.length, 0
-              );
-              return (
-                <Link
-                  key={enrolment.id}
-                  href={`/dashboard/courses/${enrolment.course.id}`}
-                  className="group bg-card rounded-xl border border-border p-5 hover:border-primary/30 hover:shadow-md transition-all"
-                >
-                  <h3 className="text-h4 text-foreground group-hover:text-primary transition-colors mb-1">
-                    {enrolment.course.title}
-                  </h3>
-                  <p className="text-body-sm text-muted-foreground mb-4 line-clamp-2">
-                    {enrolment.course.description}
-                  </p>
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between text-caption text-muted-foreground">
-                      <span>{enrolment.course.modules.length} modules • {totalLessons} lessons</span>
-                      <span className="font-medium">{formatProgress(enrolment.progress)}</span>
-                    </div>
-                    <div className="h-2 rounded-full bg-muted overflow-hidden">
-                      <div
-                        className="h-full rounded-full bg-primary transition-all duration-500"
-                        style={{ width: `${Math.round(enrolment.progress * 100)}%` }}
-                      />
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-        )}
-      </section>
-    </div>
-  );
-}
-
-// ── Stats Card ──
-
-function StatsCard({
-  icon: Icon,
-  label,
-  value,
-  color,
-}: {
-  icon: typeof BookOpen;
-  label: string;
-  value: string;
-  color: 'indigo' | 'coral' | 'amber' | 'emerald';
-}) {
-  const bgMap = {
-    indigo: 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400',
-    coral: 'bg-coral-100 dark:bg-coral-900/30 text-coral-500 dark:text-coral-400',
-    amber: 'bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400',
-    emerald: 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400',
-  };
-
-  return (
-    <div className="bg-card rounded-xl border border-border p-4">
-      <div className={`w-9 h-9 rounded-lg ${bgMap[color]} flex items-center justify-center mb-3`}>
-        <Icon className="w-5 h-5" aria-hidden="true" />
-      </div>
-      <p className="text-2xl font-bold text-foreground">{value}</p>
-      <p className="text-caption text-muted-foreground">{label}</p>
-    </div>
-  );
-}
-
-// ── Empty State ──
-
-function EmptyState() {
-  return (
-    <div className="text-center py-16 px-4 bg-card rounded-xl border border-dashed border-border">
-      <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mx-auto mb-4">
-        <BookOpen className="w-8 h-8 text-muted-foreground" aria-hidden="true" />
-      </div>
-      <h3 className="text-h4 text-foreground mb-2">No courses yet</h3>
-      <p className="text-body-sm text-muted-foreground mb-6 max-w-sm mx-auto">
-        Browse available courses for your department and start your learning journey.
-      </p>
-      <Link
-        href="/dashboard/courses"
-        className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:opacity-90 transition-opacity"
-      >
-        Browse Courses
-        <ArrowRight className="w-4 h-4" aria-hidden="true" />
-      </Link>
-    </div>
-  );
+  // Fallback — shouldn't reach here if onboarding is complete
+  redirect('/onboarding');
 }
