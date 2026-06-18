@@ -72,6 +72,7 @@ export async function POST(req: NextRequest) {
         passwordHash,
         verificationToken,
         verificationExpiry,
+        emailVerified: new Date(), // TEMPORARY BYPASS FOR TEAM TESTING
       },
       select: {
         id: true,
@@ -82,15 +83,15 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // ── 9. Send verification email (non-blocking) ──
-    sendVerificationEmail(email, user.name, verificationToken).catch((err) => {
-      console.error('[GIREAPP] Failed to send verification email:', err);
-    });
+    // TEMPORARILY COMMENTED OUT FOR TEAM TESTING
+    // sendVerificationEmail(email, user.name, verificationToken).catch((err) => {
+    //   console.error('[GIREAPP] Failed to send verification email:', err);
+    // });
 
     // ── 10. Return 201 Created ──
     return NextResponse.json(
       {
-        message: 'Account created successfully. Please check your email to verify your account.',
+        message: 'Account created successfully. You can now log in.',
         user: {
           id: user.id,
           name: user.name,

@@ -11,6 +11,7 @@ import { randomBytes } from 'crypto';
 import { redirect } from 'next/navigation';
 import { prisma } from '@/lib/prisma';
 import { signIn, signOut } from '@/lib/auth';
+import { AuthError } from 'next-auth';
 import { sendVerificationEmail, sendPasswordResetEmail } from '@/lib/email';
 import {
   registerSchema,
@@ -80,17 +81,18 @@ export async function registerAction(
       passwordHash,
       verificationToken,
       verificationExpiry,
+      emailVerified: new Date(), // TEMPORARY BYPASS FOR TEAM TESTING
     },
   });
 
-  // Send verification email (non-blocking — don't fail registration if email fails)
-  sendVerificationEmail(email, sanitizedName, verificationToken).catch((err) => {
-    console.error('[GIREAPP] Failed to send verification email:', err);
-  });
+  // TEMPORARILY COMMENTED OUT FOR TEAM TESTING
+  // sendVerificationEmail(email, sanitizedName, verificationToken).catch((err) => {
+  //   console.error('[GIREAPP] Failed to send verification email:', err);
+  // });
 
   return {
     success: true,
-    data: { message: 'Account created! Please check your email to verify your account.' },
+    data: { message: 'Account created successfully! You can now log in.' },
   };
 }
 
@@ -150,26 +152,29 @@ export async function loginAction(
     await signIn('credentials', {
       email: result.data.email,
       password: result.data.password,
-      redirect: false,
+      redirectTo: '/dashboard', // Let NextAuth handle the redirect & cookies
     });
   } catch (error) {
-    // Check for specific error types
-    const errorMessage = error instanceof Error ? error.message : '';
-
-    if (errorMessage.includes('EMAIL_NOT_VERIFIED')) {
+    if (error instanceof AuthError) {
+      if (error.type === 'CredentialsSignin') {
+        return { success: false, error: 'Invalid email or password.' };
+      }
+      return { success: false, error: 'Something went wrong.' };
+    }
+    
+    // If it's a generic Error (like EMAIL_NOT_VERIFIED thrown in authorize)
+    if (error instanceof Error && error.message.includes('EMAIL_NOT_VERIFIED')) {
       return {
         success: false,
         error: 'Please verify your email address before logging in. Check your inbox.',
       };
     }
 
-    // Unified message — prevents user enumeration (OWASP)
-    return {
-      success: false,
-      error: 'Invalid email or password.',
-    };
+    // Must re-throw Next.js RedirectError for the cookie to be set!
+    throw error;
   }
 
+  // Code below will not execute on success due to the redirect
   return { success: true };
 }
 
