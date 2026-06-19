@@ -6,6 +6,7 @@
 
 import Link from 'next/link';
 import { GraduationCap, BookOpen, Trophy, Users, ArrowRight, Sparkles, Shield } from 'lucide-react';
+import { SafeLink } from '@/components/shared/safe-link';
 
 export default function LandingPage() {
   return (
@@ -29,14 +30,14 @@ export default function LandingPage() {
             >
               Log in
             </Link>
-            <Link
+            <SafeLink
               href="/register"
               id="nav-signup-cta"
               className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
             >
               Sign Up
               <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
-            </Link>
+            </SafeLink>
           </div>
         </nav>
       </header>
@@ -58,14 +59,14 @@ export default function LandingPage() {
               </div>
 
               {/* Headline */}
-              <h1 className="text-display text-foreground animate-fade-in" style={{ animationDelay: '100ms' }}>
+              <h1 className="text-3xl md:text-h1 lg:text-display text-foreground animate-fade-in break-words" style={{ animationDelay: '100ms' }}>
                 Get It Right,{' '}
                 <span className="text-gradient-brand">The First Time</span>
               </h1>
 
               {/* Subheadline */}
               <p
-                className="text-body-lg text-muted-foreground max-w-2xl mx-auto animate-fade-in"
+                className="text-body-lg text-muted-foreground max-w-2xl mx-auto animate-fade-in break-words"
                 style={{ animationDelay: '200ms' }}
               >
                 Personalised courses tailored to your academic journey. Whether you&apos;re in 
@@ -78,14 +79,14 @@ export default function LandingPage() {
                 className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in"
                 style={{ animationDelay: '300ms' }}
               >
-                <Link
+                <SafeLink
                   href="/register"
                   id="hero-signup-cta"
                   className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-xl text-base font-semibold hover:opacity-90 transition-all hover:shadow-lg hover:shadow-primary/25 active:scale-[0.98]"
                 >
                   Start Learning — Free
                   <ArrowRight className="w-5 h-5" aria-hidden="true" />
-                </Link>
+                </SafeLink>
                 <Link
                   href="#features"
                   className="inline-flex items-center gap-2 px-8 py-4 border border-border text-foreground rounded-xl text-base font-medium hover:bg-muted transition-colors"
@@ -255,14 +256,14 @@ export default function LandingPage() {
             <p className="text-body-lg text-indigo-200 max-w-xl mx-auto">
               Join thousands of students across Africa who are taking control of their academic future.
             </p>
-            <Link
+            <SafeLink
               href="/register"
               id="footer-signup-cta"
               className="inline-flex items-center gap-2 px-8 py-4 bg-white text-indigo-800 rounded-xl text-base font-semibold hover:bg-indigo-50 transition-colors active:scale-[0.98]"
             >
               Create Free Account
               <ArrowRight className="w-5 h-5" aria-hidden="true" />
-            </Link>
+            </SafeLink>
           </div>
         </section>
       </main>
