@@ -41,10 +41,10 @@ export function LoginForm() {
     let error: string | undefined;
     if (field === 'email') {
       const result = emailSchema.safeParse(value);
-      if (!result.success) error = result.error.errors[0].message;
+      if (!result.success) error = result.error.errors[0]?.message;
     } else if (field === 'password') {
       const result = passwordSchema.safeParse(value);
-      if (!result.success) error = result.error.errors[0].message;
+      if (!result.success) error = result.error.errors[0]?.message;
     }
     setFieldErrors((prev) => ({ ...prev, [field]: error }));
     return !error;

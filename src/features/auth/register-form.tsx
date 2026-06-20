@@ -60,17 +60,17 @@ export function RegisterForm() {
     switch (field) {
       case 'name': {
         const result = nameSchema.safeParse(value);
-        if (!result.success) error = result.error.errors[0].message;
+        if (!result.success) error = result.error.errors[0]?.message;
         break;
       }
       case 'email': {
         const result = emailSchema.safeParse(value);
-        if (!result.success) error = result.error.errors[0].message;
+        if (!result.success) error = result.error.errors[0]?.message;
         break;
       }
       case 'password': {
         const result = passwordSchema.safeParse(value);
-        if (!result.success) error = result.error.errors[0].message;
+        if (!result.success) error = result.error.errors[0]?.message;
         // Also re-validate confirmPassword if it's been touched
         if (touched.confirmPassword && values.confirmPassword) {
           setFieldErrors((prev) => ({
