@@ -77,6 +77,7 @@ export function OnboardingForm() {
                 key={opt.value}
                 type="button"
                 onClick={() => { setLevel(opt.value); setStep(2); }}
+                aria-pressed={level === opt.value}
                 className={cn(
                   'flex items-center gap-4 p-4 rounded-xl border-2 transition-all hover:shadow-md text-left',
                   level === opt.value ? opt.color : 'border-border bg-card hover:border-primary/30'
@@ -112,6 +113,7 @@ export function OnboardingForm() {
                 key={dept}
                 type="button"
                 onClick={() => { setDepartment(dept); setStep(3); }}
+                aria-pressed={department === dept}
                 className={cn(
                   'p-4 rounded-xl border-2 transition-all hover:shadow-md text-left font-medium',
                   department === dept ? 'border-primary bg-primary/5' : 'border-border bg-card hover:border-primary/30'
@@ -143,6 +145,7 @@ export function OnboardingForm() {
                 key={opt.value}
                 type="button"
                 onClick={() => setMood(opt.value)}
+                aria-pressed={mood === opt.value}
                 className={cn(
                   'flex items-center gap-3 p-4 rounded-xl border-2 transition-all',
                   mood === opt.value ? `border-primary ${opt.bg}` : 'border-border bg-card hover:border-primary/30'

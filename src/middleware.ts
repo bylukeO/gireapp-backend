@@ -92,14 +92,7 @@ export default auth(async function middleware(req) {
     return NextResponse.redirect(new URL('/dashboard', req.url));
   }
 
-  // ── Redirect to onboarding if incomplete ──
-  if (
-    session?.user && 
-    !session.user.isOnboardingComplete && 
-    pathname.startsWith('/dashboard')
-  ) {
-    return NextResponse.redirect(new URL('/onboarding', req.url));
-  }
+  // ── (Removed strict onboarding redirect to allow skipping) ──
 
   return NextResponse.next();
 });

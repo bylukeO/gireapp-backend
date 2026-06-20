@@ -18,9 +18,7 @@ export default async function DashboardLayout({
     redirect('/login');
   }
 
-  if (!session.user.isOnboardingComplete) {
-    redirect('/onboarding');
-  }
+  // Allow users to skip onboarding and still access the layout
 
   return (
     <div className="min-h-screen bg-background">
