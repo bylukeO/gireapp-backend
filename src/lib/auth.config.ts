@@ -120,7 +120,28 @@ export const authConfig = {
       }
 
       if (!isLoggedIn) {
-        return false;
+        // Detect expired session: cookie exists but NextAuth parsed it as null/invalid
+        const hasTokenCookie = request.cookies.getAll().some(c => c.name.includes('session-token'));
+        
+        if (hasTokenCookie) {
+          const url = new URL('/login', request.nextUrl);
+          url.searchParams.set('expired', 'true');
+          url.searchParams.set('callbackUrl', request.nextUrl.pathname + request.nextUrl.search);
+          
+          // Clear the invalid cookie manually to prevent redirect loops
+          const response = Response.redirect(url);
+          request.cookies.getAll().forEach(c => {
+            if (c.name.includes('session-token')) {
+              response.headers.append('Set-Cookie', `${c.name}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Lax`);
+            }
+          });
+          return response;
+        }
+
+        // Standard unauthenticated redirect, preserves full URL including query params
+        const url = new URL('/login', request.nextUrl);
+        url.searchParams.set('callbackUrl', request.nextUrl.pathname + request.nextUrl.search);
+        return Response.redirect(url);
       }
 
       if (pathname.startsWith('/admin')) {
