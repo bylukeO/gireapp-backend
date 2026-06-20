@@ -150,12 +150,22 @@ test.describe('Landing Page — Edge Cases', () => {
   test('rapid CTA clicks do not cause duplicate navigation', async ({ page }) => {
     await page.goto('/');
     const heroCta = page.locator('#hero-signup-cta');
+    await heroCta.scrollIntoViewIfNeeded();
     await expect(heroCta).toBeVisible();
 
-    // Click rapidly — SafeLink debounce should prevent duplicates
-    await heroCta.click();
-    await heroCta.click({ force: true, noWaitAfter: true }).catch(() => {});
-    await heroCta.click({ force: true, noWaitAfter: true }).catch(() => {});
+    // Use DOM-level clicks to simulate rapid clicking synchronously.
+    // Playwright's click() waits for navigation between calls which
+    // prevents testing the actual rapid-click scenario.
+    await page.evaluate(() => {
+      const btn = document.getElementById('hero-signup-cta');
+      if (btn) {
+        btn.click();
+        btn.click();
+        btn.click();
+        btn.click();
+        btn.click();
+      }
+    });
 
     // Should still end up at /register without errors
     await page.waitForURL(/\/register/, { timeout: 5000 });
