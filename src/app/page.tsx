@@ -1,42 +1,40 @@
 // ─────────────────────────────────────────────────
-// GIREAPP — Landing Page (M2: FE-AUTH-001)
-// Hero, features, CTAs — responsive at 375/768/1440px
-// Server Component for LCP < 2.5s on 4G
+// GIREAPP — Landing Page
+// High-end, polished, modern design (Anti-Slop)
 // ─────────────────────────────────────────────────
 
 import Link from 'next/link';
-import { GraduationCap, BookOpen, Trophy, Users, ArrowRight, Sparkles, Shield } from 'lucide-react';
+import { GraduationCap, BookOpen, Trophy, Users, ArrowRight, Sparkles, Shield, ChevronRight } from 'lucide-react';
 import { SafeLink } from '@/components/shared/safe-link';
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background selection:bg-primary/20">
       {/* ── Navigation ── */}
-      <header className="sticky top-0 z-50 glass border-b border-border/50">
-        <nav className="container flex items-center justify-between h-16 px-4 md:px-6">
-          <Link href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-brand flex items-center justify-center">
-              <GraduationCap className="w-5 h-5 text-white" aria-hidden="true" />
+      <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/40 supports-[backdrop-filter]:bg-background/60">
+        <nav className="container max-w-7xl flex items-center justify-between h-16 px-4 md:px-6 mx-auto">
+          <Link href="/" className="flex items-center gap-2.5 group outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-lg transition-all">
+            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
+              <GraduationCap className="w-4 h-4 text-primary-foreground" aria-hidden="true" />
             </div>
-            <span className="font-heading font-bold text-xl text-foreground">
+            <span className="font-heading font-semibold text-[1.125rem] tracking-tight text-foreground">
               GIREAPP
             </span>
           </Link>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <Link
               href="/login"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors px-3 py-2"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors px-2 py-2 outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-md"
             >
               Log in
             </Link>
             <SafeLink
               href="/register"
               id="nav-signup-cta"
-              className="inline-flex items-center gap-1.5 px-4 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-medium hover:opacity-90 transition-opacity"
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-foreground text-background rounded-full text-sm font-medium hover:bg-foreground/90 transition-all outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background shadow-sm active:scale-95"
             >
               Sign Up
-              <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
             </SafeLink>
           </div>
         </nav>
@@ -44,94 +42,86 @@ export default function LandingPage() {
 
       <main id="main-content">
         {/* ── Hero Section ── */}
-        <section className="relative overflow-hidden">
-          {/* Background gradient */}
-          <div className="absolute inset-0 bg-gradient-hero opacity-[0.03] dark:opacity-[0.08]" aria-hidden="true" />
-          <div className="absolute top-0 right-0 w-96 h-96 bg-coral-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" aria-hidden="true" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" aria-hidden="true" />
+        <section className="relative overflow-hidden pt-24 pb-32 md:pt-36 md:pb-40 border-b border-border/40">
+          {/* Subtle Grid Background */}
+          <div 
+            className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"
+            aria-hidden="true"
+          />
 
-          <div className="container relative px-4 md:px-6 py-20 md:py-32 lg:py-40">
-            <div className="max-w-3xl mx-auto text-center space-y-8">
+          <div className="container max-w-7xl relative px-4 md:px-6 mx-auto text-center">
+            <div className="max-w-3xl mx-auto space-y-8">
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium animate-fade-in">
-                <Sparkles className="w-4 h-4" aria-hidden="true" />
-                Enabling Academic Excellence Across Africa
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-muted/50 border border-border/50 text-muted-foreground text-sm font-medium animate-fade-in backdrop-blur-sm mx-auto hover:bg-muted transition-colors cursor-default">
+                <Sparkles className="w-3.5 h-3.5 text-primary" aria-hidden="true" />
+                <span className="tracking-tight">Enabling Academic Excellence Across Africa</span>
               </div>
 
               {/* Headline */}
-              <h1 className="text-3xl md:text-h1 lg:text-display text-foreground animate-fade-in break-words" style={{ animationDelay: '100ms' }}>
-                Get It Right,{' '}
-                <span className="text-gradient-brand">The First Time</span>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[4rem] font-bold text-foreground animate-fade-in tracking-tight leading-[1.1] md:leading-[1.1]" style={{ animationDelay: '100ms' }}>
+                Get It Right,<br className="hidden sm:block" />
+                <span className="text-muted-foreground"> The First Time.</span>
               </h1>
 
               {/* Subheadline */}
               <p
-                className="text-body-lg text-muted-foreground max-w-2xl mx-auto animate-fade-in break-words"
+                className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto animate-fade-in leading-relaxed font-normal"
                 style={{ animationDelay: '200ms' }}
               >
-                Personalised courses tailored to your academic journey. Whether you&apos;re in 
-                high school, university, or pursuing professional certifications — GIREAPP 
-                delivers the right content, right when you need it.
+                Your path to academic success shouldn't be a guessing game. GIREAPP gives you the exact courses, mentorship, and practice you need to excel at every stage.
               </p>
 
               {/* CTAs */}
               <div
-                className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in"
+                className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 animate-fade-in"
                 style={{ animationDelay: '300ms' }}
               >
                 <SafeLink
                   href="/register"
                   id="hero-signup-cta"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-xl text-base font-semibold hover:opacity-90 transition-all hover:shadow-lg hover:shadow-primary/25 active:scale-[0.98]"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-primary text-primary-foreground rounded-full text-base font-medium hover:bg-primary/90 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.12)] hover:shadow-[0_4px_12px_rgba(55,48,163,0.2)] outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98] w-full sm:w-auto"
                 >
-                  Start Learning — Free
-                  <ArrowRight className="w-5 h-5" aria-hidden="true" />
+                  Start Learning Free
                 </SafeLink>
                 <Link
                   href="#features"
-                  className="inline-flex items-center gap-2 px-8 py-4 border border-border text-foreground rounded-xl text-base font-medium hover:bg-muted transition-colors"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-card border border-border/60 text-foreground rounded-full text-base font-medium hover:bg-muted/50 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98] w-full sm:w-auto shadow-sm"
                 >
                   Explore Features
+                  <ChevronRight className="w-4 h-4 text-muted-foreground" aria-hidden="true" />
                 </Link>
               </div>
-
-              {/* Social proof */}
-              <p className="text-caption text-muted-foreground animate-fade-in" style={{ animationDelay: '400ms' }}>
-                Trusted by students across Nigeria, Ghana, and South Africa
-              </p>
             </div>
           </div>
         </section>
 
         {/* ── Segments Section ── */}
-        <section className="py-20 md:py-28 bg-muted/50">
-          <div className="container px-4 md:px-6">
-            <div className="text-center space-y-4 mb-16">
-              <h2 className="text-h2 text-foreground">
+        <section className="py-24 md:py-32 bg-background relative">
+          <div className="container max-w-7xl px-4 md:px-6 mx-auto">
+            <div className="max-w-3xl space-y-4 mb-16">
+              <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground">
                 Your Track, Your Dashboard
               </h2>
-              <p className="text-body text-muted-foreground max-w-2xl mx-auto">
-                GIREAPP instantly tailors your experience based on your academic level. 
-                No noise, no irrelevant content — just what you need to succeed.
+              <p className="text-lg text-muted-foreground max-w-2xl leading-relaxed">
+                GIREAPP dynamically adapts your experience based on your academic level. No clutter, just the resources you actually need.
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
               {/* Secondary */}
-              <div className="group relative bg-card rounded-2xl border border-border p-8 hover:border-indigo-300 dark:hover:border-indigo-700 transition-all hover:shadow-lg hover:-translate-y-1">
-                <div className="w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <BookOpen className="w-6 h-6 text-indigo-800 dark:text-indigo-300" aria-hidden="true" />
+              <div className="group relative bg-card/40 backdrop-blur-sm rounded-3xl border border-border/50 p-8 hover:bg-card/80 transition-colors duration-300">
+                <div className="w-10 h-10 rounded-full bg-indigo-500/10 flex items-center justify-center mb-8 border border-indigo-500/20">
+                  <BookOpen className="w-5 h-5 text-indigo-600 dark:text-indigo-400" aria-hidden="true" />
                 </div>
-                <h3 className="text-h4 text-foreground mb-2">Secondary</h3>
-                <p className="text-body-sm text-muted-foreground mb-4">
-                  Science, Business, and Arts tracks for high school students. 
-                  WAEC and JAMB-ready content with targeted exam prep.
+                <h3 className="text-xl font-semibold text-foreground mb-3">Secondary Education</h3>
+                <p className="text-sm text-muted-foreground mb-8 leading-relaxed">
+                  Tailored WAEC and JAMB preparation for Science, Business, and Arts students.
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {['Science', 'Business', 'Arts'].map((dept) => (
                     <span
                       key={dept}
-                      className="px-2.5 py-1 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 rounded-md text-caption font-medium"
+                      className="px-3 py-1 bg-background border border-border/40 text-muted-foreground rounded-full text-xs font-medium"
                     >
                       {dept}
                     </span>
@@ -140,20 +130,19 @@ export default function LandingPage() {
               </div>
 
               {/* Tertiary */}
-              <div className="group relative bg-card rounded-2xl border border-border p-8 hover:border-coral-300 dark:hover:border-coral-700 transition-all hover:shadow-lg hover:-translate-y-1">
-                <div className="w-12 h-12 rounded-xl bg-coral-100 dark:bg-coral-900/40 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <GraduationCap className="w-6 h-6 text-coral-600 dark:text-coral-300" aria-hidden="true" />
+              <div className="group relative bg-card/40 backdrop-blur-sm rounded-3xl border border-border/50 p-8 hover:bg-card/80 transition-colors duration-300">
+                <div className="w-10 h-10 rounded-full bg-coral-500/10 flex items-center justify-center mb-8 border border-coral-500/20">
+                  <GraduationCap className="w-5 h-5 text-coral-600 dark:text-coral-400" aria-hidden="true" />
                 </div>
-                <h3 className="text-h4 text-foreground mb-2">Tertiary</h3>
-                <p className="text-body-sm text-muted-foreground mb-4">
-                  Undergraduate and Postgraduate modules. 
-                  Research methodology, thesis support, and career mentorship.
+                <h3 className="text-xl font-semibold text-foreground mb-3">Tertiary Studies</h3>
+                <p className="text-sm text-muted-foreground mb-8 leading-relaxed">
+                  Advanced modules for undergrads and postgrads, including thesis support and research methodology.
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {['Undergraduate', 'Postgraduate'].map((dept) => (
+                  {['Undergrad', 'Postgrad'].map((dept) => (
                     <span
                       key={dept}
-                      className="px-2.5 py-1 bg-coral-50 dark:bg-coral-900/20 text-coral-700 dark:text-coral-300 rounded-md text-caption font-medium"
+                      className="px-3 py-1 bg-background border border-border/40 text-muted-foreground rounded-full text-xs font-medium"
                     >
                       {dept}
                     </span>
@@ -162,20 +151,19 @@ export default function LandingPage() {
               </div>
 
               {/* Professional */}
-              <div className="group relative bg-card rounded-2xl border border-border p-8 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all hover:shadow-lg hover:-translate-y-1">
-                <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                  <Trophy className="w-6 h-6 text-emerald-600 dark:text-emerald-300" aria-hidden="true" />
+              <div className="group relative bg-card/40 backdrop-blur-sm rounded-3xl border border-border/50 p-8 hover:bg-card/80 transition-colors duration-300">
+                <div className="w-10 h-10 rounded-full bg-emerald-500/10 flex items-center justify-center mb-8 border border-emerald-500/20">
+                  <Trophy className="w-5 h-5 text-emerald-600 dark:text-emerald-400" aria-hidden="true" />
                 </div>
-                <h3 className="text-h4 text-foreground mb-2">Professional</h3>
-                <p className="text-body-sm text-muted-foreground mb-4">
-                  Industry-certified training for working adults and career changers. 
-                  Data-saver mode for cost-efficient learning.
+                <h3 className="text-xl font-semibold text-foreground mb-3">Professional Skills</h3>
+                <p className="text-sm text-muted-foreground mb-8 leading-relaxed">
+                  Industry-recognized training for career advancement, optimized with data-saver mode.
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {['Data Analytics', 'Project Mgmt', 'Digital Marketing'].map((dept) => (
+                  {['Data', 'Management', 'Marketing'].map((dept) => (
                     <span
                       key={dept}
-                      className="px-2.5 py-1 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300 rounded-md text-caption font-medium"
+                      className="px-3 py-1 bg-background border border-border/40 text-muted-foreground rounded-full text-xs font-medium"
                     >
                       {dept}
                     </span>
@@ -187,60 +175,55 @@ export default function LandingPage() {
         </section>
 
         {/* ── Features Section ── */}
-        <section id="features" className="py-20 md:py-28">
-          <div className="container px-4 md:px-6">
-            <div className="text-center space-y-4 mb-16">
-              <h2 className="text-h2 text-foreground">
-                Everything You Need to Excel
+        <section id="features" className="py-24 md:py-32 border-t border-border/40 bg-muted/20">
+          <div className="container max-w-7xl px-4 md:px-6 mx-auto">
+            <div className="max-w-3xl space-y-4 mb-16">
+              <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground">
+                Everything you need. Nothing you don't.
               </h2>
-              <p className="text-body text-muted-foreground max-w-2xl mx-auto">
-                From structured lessons to gamified assessments and real mentorship — 
-                GIREAPP is your complete academic companion.
+              <p className="text-lg text-muted-foreground max-w-2xl leading-relaxed">
+                A seamless blend of structured curriculum, interactive assessments, and expert guidance.
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            <div className="grid sm:grid-cols-2 gap-6 lg:gap-8">
               {[
                 {
                   icon: BookOpen,
-                  title: 'Structured Courses',
-                  description: 'Multi-format lessons: text, PDFs, and rich markdown. Organised by modules for clear progression.',
-                  color: 'indigo' as const,
+                  title: 'Structured Learning Paths',
+                  description: 'Rich markdown lessons, PDFs, and multimedia organized into intuitive modules that track your progression automatically.',
                 },
                 {
                   icon: Trophy,
-                  title: 'Gamified Learning',
-                  description: 'Earn points and badges (Bronze → Gold → Current Master) as you complete assessments.',
-                  color: 'coral' as const,
+                  title: 'Gamified Assessments',
+                  description: 'Test your knowledge and earn rank badges as you complete quizzes. Moving from Bronze to Master keeps you motivated.',
                 },
                 {
                   icon: Users,
-                  title: 'Mentorship Access',
-                  description: 'Connect with verified mentors and counsellors for academic and career guidance.',
-                  color: 'emerald' as const,
+                  title: 'Expert Mentorship',
+                  description: 'Stuck on a concept? Connect directly with verified academic counselors and industry mentors within the platform.',
                 },
                 {
                   icon: Shield,
-                  title: 'Data Privacy',
-                  description: 'NDPR and POPIA compliant. Your academic data is encrypted and access-controlled.',
-                  color: 'violet' as const,
+                  title: 'Enterprise-Grade Privacy',
+                  description: 'Fully NDPR and POPIA compliant. Your academic records and personal data are encrypted and strictly access-controlled.',
                 },
               ].map((feature) => (
-                <div
-                  key={feature.title}
-                  className="bg-card rounded-xl border border-border p-6 hover:shadow-md transition-shadow"
+                <div 
+                  key={feature.title} 
+                  className="bg-card border border-border/50 rounded-3xl p-8 hover:shadow-sm transition-all flex flex-col md:flex-row gap-6 items-start"
                 >
-                  <feature.icon 
-                    className={`w-8 h-8 mb-4 ${
-                      feature.color === 'indigo' ? 'text-indigo-600 dark:text-indigo-400' :
-                      feature.color === 'coral' ? 'text-coral-500 dark:text-coral-400' :
-                      feature.color === 'emerald' ? 'text-emerald-600 dark:text-emerald-400' :
-                      'text-violet-600 dark:text-violet-400'
-                    }`} 
-                    aria-hidden="true" 
-                  />
-                  <h3 className="text-h4 text-foreground mb-2">{feature.title}</h3>
-                  <p className="text-body-sm text-muted-foreground">{feature.description}</p>
+                  <div className="flex-shrink-0">
+                    <div className="w-12 h-12 rounded-2xl bg-background border border-border/60 flex items-center justify-center shadow-sm">
+                      <feature.icon className="w-5 h-5 text-foreground" aria-hidden="true" />
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-foreground mb-2">{feature.title}</h3>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {feature.description}
+                    </p>
+                  </div>
                 </div>
               ))}
             </div>
@@ -248,38 +231,40 @@ export default function LandingPage() {
         </section>
 
         {/* ── CTA Section ── */}
-        <section className="py-20 md:py-28 bg-gradient-hero text-white">
-          <div className="container px-4 md:px-6 text-center space-y-8">
-            <h2 className="text-h1 text-white">
-              Ready to Get It Right?
+        <section className="py-24 md:py-32 border-t border-border/40">
+          <div className="container max-w-4xl px-4 md:px-6 mx-auto text-center space-y-8">
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground">
+              Ready to accelerate your learning?
             </h2>
-            <p className="text-body-lg text-indigo-200 max-w-xl mx-auto">
-              Join thousands of students across Africa who are taking control of their academic future.
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+              Join thousands of ambitious students across Africa taking control of their academic future today.
             </p>
-            <SafeLink
-              href="/register"
-              id="footer-signup-cta"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-indigo-800 rounded-xl text-base font-semibold hover:bg-indigo-50 transition-colors active:scale-[0.98]"
-            >
-              Create Free Account
-              <ArrowRight className="w-5 h-5" aria-hidden="true" />
-            </SafeLink>
+            <div className="pt-4">
+              <SafeLink
+                href="/register"
+                id="footer-signup-cta"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-foreground text-background rounded-full text-base font-medium hover:bg-foreground/90 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.12)] hover:shadow-lg outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98]"
+              >
+                Create your free account
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              </SafeLink>
+            </div>
           </div>
         </section>
       </main>
 
       {/* ── Footer ── */}
-      <footer className="bg-card border-t border-border py-12">
-        <div className="container px-4 md:px-6">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded bg-gradient-brand flex items-center justify-center">
-                <GraduationCap className="w-4 h-4 text-white" aria-hidden="true" />
+      <footer className="border-t border-border/40 bg-background/50">
+        <div className="container max-w-7xl px-4 md:px-6 py-12 mx-auto">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-2.5">
+              <div className="w-6 h-6 rounded bg-primary flex items-center justify-center">
+                <GraduationCap className="w-3.5 h-3.5 text-primary-foreground" aria-hidden="true" />
               </div>
-              <span className="font-heading font-bold text-foreground">GIREAPP</span>
+              <span className="font-heading font-semibold text-foreground">GIREAPP</span>
             </div>
-            <p className="text-caption text-muted-foreground">
-              © {new Date().getFullYear()} GIREAPP — Enabling Academic Excellence Across Africa. All rights reserved.
+            <p className="text-sm text-muted-foreground">
+              © {new Date().getFullYear()} GIREAPP. All rights reserved.
             </p>
           </div>
         </div>
