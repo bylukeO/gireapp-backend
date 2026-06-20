@@ -151,6 +151,12 @@ export async function loginAction(
     email: formData.get('email') as string,
     password: formData.get('password') as string,
   };
+  
+  const rawCallbackUrl = formData.get('callbackUrl') as string | null;
+  // Prevent open redirects by ensuring it's a relative path starting with /
+  const callbackUrl = (rawCallbackUrl && rawCallbackUrl.startsWith('/') && !rawCallbackUrl.startsWith('//'))
+    ? rawCallbackUrl
+    : '/dashboard';
 
   const result = loginSchema.safeParse(raw);
   if (!result.success) {
@@ -164,7 +170,7 @@ export async function loginAction(
     await signIn('credentials', {
       email: result.data.email,
       password: result.data.password,
-      redirectTo: '/dashboard', // Let NextAuth handle the redirect & cookies
+      redirectTo: callbackUrl, // Honor the callbackUrl
     });
   } catch (error) {
     if (error instanceof AuthError) {
