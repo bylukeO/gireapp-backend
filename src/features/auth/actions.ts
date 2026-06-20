@@ -90,10 +90,22 @@ export async function registerAction(
   //   console.error('[GIREAPP] Failed to send verification email:', err);
   // });
 
-  return {
-    success: true,
-    data: { message: 'Account created successfully! You can now log in.' },
-  };
+  // Auto-sign in and redirect to onboarding (AC-4: redirect to onboarding flow)
+  // NOTE: When email verification is re-enabled, revert to returning success
+  // and letting the user verify email first, then log in manually.
+  try {
+    await signIn('credentials', {
+      email,
+      password,
+      redirectTo: '/onboarding',
+    });
+  } catch (error) {
+    // signIn with redirectTo throws a NEXT_REDIRECT — must re-throw for Next.js
+    throw error;
+  }
+
+  // This line won't execute due to the redirect above
+  return { success: true };
 }
 
 // ── Verify Email ──
