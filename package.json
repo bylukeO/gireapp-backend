@@ -1,0 +1,18 @@
+{
+  "name": "gireapp-backend-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GIREAPP — Express Backend API & Shared Packages",
+  "workspaces": [
+    "backend",
+    "shared"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=backend",
+    "build": "npm run build --workspaces",
+    "start": "npm run start --workspace=backend",
+    "lint": "npm run lint --workspaces",
+    "db:push": "npm run db:push --workspace=backend",
+    "db:studio": "npm run db:studio --workspace=backend"
+  }
+}
